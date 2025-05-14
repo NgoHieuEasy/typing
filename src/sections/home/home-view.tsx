@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 const textToType = [
   "aqa qaq j ju juj uju just aqua",
   "quest cons toughs sequence thoughtless",
@@ -15,6 +14,58 @@ const HomeView: React.FC = () => {
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [errorIndex, setErrorIndex] = useState<number | null>(null);
 
+  const [pressedKey, setPressedKey] = useState<string | null>(null);
+  const keys = [
+    ["~", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "delete"],
+    ["tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "[", "]", "\\"],
+    [
+      "caps lock",
+      "A",
+      "S",
+      "D",
+      "F",
+      "G",
+      "H",
+      "J",
+      "K",
+      "L",
+      ";",
+      "'",
+      "enter",
+    ],
+    [
+      "shift",
+      "Z",
+      "X",
+      "C",
+      "V",
+      "B",
+      "N",
+      "M",
+      ",",
+      ".",
+      "/",
+      "shift",
+      "ctrl",
+    ],
+    ["ctrl", "alt", "cmd", "space", "cmd", "alt"],
+  ];
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const key = event.key.toUpperCase();
+      setPressedKey(key === " " ? "space" : key);
+    };
+
+    const handleKeyUp = () => setPressedKey(null);
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key === " " ? " " : event.key;
@@ -76,15 +127,29 @@ const HomeView: React.FC = () => {
         </p>
         <p className="text-center text-lg">Accuracy: {accuracy}%</p>
       </div>
-      <div className="flex mt-10">
-        {"abcdefghijklmnopqrstuvwxyz ".split("").map((key) => (
-          <motion.div
-            key={key}
-            className={`m-1 p-3 w-10 h-10 bg-gray-200 rounded-md text-center ${key === activeKey ? "bg-blue-400" : ""}`}
-          >
-            {key === " " ? "_" : key}
-          </motion.div>
-        ))}
+
+      {/*  */}
+      <div className="bg-gray-200 p-8 rounded-lg  mx-auto">
+        <div className="flex flex-col gap-3">
+          {keys.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex gap-2">
+              {row.map((key, keyIndex) => {
+                const isActive =
+                  key.toLowerCase() === pressedKey?.toLowerCase();
+                return (
+                  <div
+                    key={keyIndex}
+                    className={`flex items-center justify-center rounded-lg shadow-md px-4 py-2 font-mono text-lg select-none ${
+                      key === "space" ? "w-[400px]" : ""
+                    } ${isActive ? "bg-green-500 text-white" : "bg-white text-gray-800"}`}
+                  >
+                    {key === "space" ? "␣" : key}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
