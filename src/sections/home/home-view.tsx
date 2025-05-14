@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 const textToType = [
-  "aqa qaq j ju juj uju just aqua",
+  "J'ames Bond star Daniel Craig was made an honorary officer of the United Kingdom's Royal Navy on Thursday matching his onscreen 007 personae, who holds the rank of",
   "quest cons toughs sequence thoughtless",
   "staunch ghosts summer pounce afoul",
   "differentiated haircut",

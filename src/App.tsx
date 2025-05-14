@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useUserStore } from "./zustand/useUserStore";
 import { useUser } from "./hooks/actions/useAuth";
 import ToastComponent from "./components/notification/useToast";
-import LoginPopup from "./components/popup/login-popup";
 
 function App() {
   const { setDarkMode } = useDarkModeStore();
@@ -34,7 +33,6 @@ function App() {
     <BrowserRouter>
       <Router />
       <ToastComponent />
-      <LoginPopup />
     </BrowserRouter>
   );
 }
